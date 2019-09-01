@@ -47,7 +47,7 @@ function handleEvent(event) {
         text: mes //実際に返信の言葉を入れる箇所
       }
 
-      fetch(`https://restapi-7128f.firebaseio.com/${event.source.userId}.json`, {
+      fetch(`https://firebase.firebaseio.com/${event.source.userId}.json`, { //Firebase Realtime Databaseを使って保存
         method: "PUT",
         body: JSON.stringify({steps: parseInt(data,16)})
       })
