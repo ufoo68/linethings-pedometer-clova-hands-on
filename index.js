@@ -2,8 +2,10 @@
 
 const express = require('express');
 const line = require('@line/bot-sdk');
-const fetch = require('node-fetch')
 require('dotenv').config();
+const cache = require('memory-cache');//ハンズオンなのでいったんmemory-cache、本来はちゃんとDB的なの使うべき
+const clova = require('@line/clova-cek-sdk-nodejs');
+const clovaSkillHandler = require('./clova/clovaSkill');
 
 const PORT = process.env.PORT || 3000;
 
@@ -14,6 +16,10 @@ const config = {
 };
 
 const app = express();
+// Clova呼び出し
+const clovaMiddleware = clova.Middleware({ applicationId: process.env.EXTENSION_ID });
+app.post('/clova', clovaMiddleware, clovaSkillHandler);
+
 //URL + /webhookで登録したWebhook URLが呼び出されたときに実行される。
 app.post('/webhook', line.middleware(config), (req, res) => {
     Promise
@@ -46,12 +52,12 @@ function handleEvent(event) {
         type: 'text',
         text: mes //実際に返信の言葉を入れる箇所
       }
-
-      fetch(`https://restapi-7128f.firebaseio.com/${event.source.userId}.json`, {
-        method: "PUT",
-        body: JSON.stringify({steps: parseInt(data,16)})
-      })
-  
+      // 歩数保存
+      let pedometerInfo = {
+        stepcount: parseInt(data,16)
+      };
+      cache.put(event.source.userId, pedometerInfo);
+      console.log("stepcount=" + pedometerInfo.stepcount);
       return client.replyMessage(event.replyToken, msgObj);
     }
   }
