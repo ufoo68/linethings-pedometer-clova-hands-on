@@ -2,6 +2,7 @@
 
 const express = require('express');
 const line = require('@line/bot-sdk');
+const fetch = require('node-fetch')
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
@@ -24,8 +25,6 @@ const client = new line.Client(config);
 //ユーザから受け取ったイベントについてのハンドリングを実装する
 function handleEvent(event) {
     let mes = '';
-    console.log('---')
-    console.log(event);
     if (event.type !== 'things') {
       return Promise.resolve(null);
     }
@@ -41,13 +40,17 @@ function handleEvent(event) {
       const blePayload = thingsData.bleNotificationPayload;
       const buffer = new Buffer.from(blePayload, 'base64');
       const data = buffer.toString('hex');  //Base64をデコード
-      console.log(buffer);
       console.log("Payload=" + parseInt(data,16));
       mes = `${parseInt(data,16)}歩あるいたよ`;
       const msgObj = {
         type: 'text',
         text: mes //実際に返信の言葉を入れる箇所
       }
+
+      fetch(`https://restapi-7128f.firebaseio.com/${event.source.userId}.json`, {
+        method: "PUT",
+        body: JSON.stringify({steps: parseInt(data,16)})
+      })
   
       return client.replyMessage(event.replyToken, msgObj);
     }

@@ -80,10 +80,16 @@ void loop() {
     M5.Lcd.setCursor(0,0);
     M5.lcd.print("Walked " + String(stepCount) + " steps");
     M5.lcd.print(" (" + String((float)stepTime / 1000.0) + " s)");
-    if (stepCount%10 == 0) {
-      notifyCharacteristic->setValue(&stepCount, 1);
-      notifyCharacteristic->notify();
-    }
+  }
+
+  if (M5.BtnA.wasPressed()) {
+    notifyCharacteristic->setValue(&stepCount, 1);
+    notifyCharacteristic->notify();
+  }
+
+  if (M5.BtnB.wasPressed()) {
+    stepCount = 0;
+    M5.Lcd.clear(BLACK);
   }
 
   M5.update();
