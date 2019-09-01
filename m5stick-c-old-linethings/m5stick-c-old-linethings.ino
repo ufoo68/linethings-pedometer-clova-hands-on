@@ -66,7 +66,6 @@ float getFilterdAccelData() {
     
     // 参考：
     // https://github.com/m5stack/M5StickC/blob/03fcbccfe0bc0d1c8191e92c1c7e6e0336e012ec/examples/Basics/IMU/IMU.ino#L40
-
     M5.IMU.getAccelData(&accX,&accY,&accZ);
     y[1] = 0.8 * y[0] + 0.2 * (abs(accX) + abs(accY) + abs(accZ)) * 1000.0;
     y[0] = y[1];
@@ -98,7 +97,6 @@ void setup() {
   // https://github.com/m5stack/M5StickC/pull/35
   // https://github.com/m5stack/M5StickC/blob/03fcbccfe0bc0d1c8191e92c1c7e6e0336e012ec/examples/Basics/IMU/IMU.ino#L18
   // https://github.com/m5stack/M5StickC/blob/03fcbccfe0bc0d1c8191e92c1c7e6e0336e012ec/src/IMU.cpp#L10
-
   M5.IMU.Init();
   sample[countSample] = getFilterdAccelData();
 }
