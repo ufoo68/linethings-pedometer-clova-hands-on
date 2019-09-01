@@ -5,9 +5,10 @@
   "main": "index.js",
   "dependencies": {
     "@line/bot-sdk": "^6.8.1",
+    "@line/clova-cek-sdk-nodejs": "^1.2.1",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "node-fetch": "^2.6.0"
+    "memory-cache": "^0.2.0"
   },
   "devDependencies": {},
   "scripts": {
