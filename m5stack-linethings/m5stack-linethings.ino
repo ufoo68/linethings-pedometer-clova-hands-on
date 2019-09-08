@@ -9,7 +9,7 @@
 #define DEVICE_NAME "LINE Things Pedometer"
 
 // User service UUID: Change this to your generated service UUID
-#define USER_SERVICE_UUID "Change your service uuid"
+#define USER_SERVICE_UUID "91E4E176-D0B9-464D-9FE4-52EE3E9F1552"
 // User service characteristics
 #define WRITE_CHARACTERISTIC_UUID "E9062E71-9E62-4BC6-B0D3-35CDCD9B027B"
 #define NOTIFY_CHARACTERISTIC_UUID "62FBD229-6EDD-4D1A-B554-5C4E1BB29169"
